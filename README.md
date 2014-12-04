@@ -1,12 +1,8 @@
 # b_
 [![NPM Version](https://badge.fury.io/js/b_.png)]
 (https://npmjs.org/package/b_)
-
 [![Build Status](https://travis-ci.org/azproduction/b_.png?branch=master)]
 (https://travis-ci.org/azproduction/b_)
-
-[![Dependency Status](https://gemnasium.com/azproduction/b_.png)]
-(https://gemnasium.com/azproduction/b_)
 
 BEM class name formatter
 
