@@ -1,9 +1,9 @@
 {
-  "name" : "b_",
-  "version" : "1.0.0",
-  "author" : "Mikhail Davydov <i@azproduction.ru>",
-  "description" : "BEM class name generator",
-  "contributors" : [
+  "name": "b_",
+  "version": "1.0.1",
+  "author": "Mikhail Davydov <i@azproduction.ru>",
+  "description": "BEM class name generator",
+  "contributors": [
     {
       "name": "Mikhail Davydov",
       "email": "i@azproduction.ru"
@@ -20,13 +20,11 @@
     "type": "git",
     "url": "git://github.com/azproduction/b_.git"
   },
-  "engines" : {
+  "engines": {
     "node": ">= 0.8.0"
   },
-  "dependencies" : {
-
-  },
-  "devDependencies" : {
+  "dependencies": {},
+  "devDependencies": {
     "jshint": "2.1.3",
     "mocha": "~1.11.0",
     "jscs": "~1.4.5",
