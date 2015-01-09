@@ -25,12 +25,10 @@ function (root, factory) {
      *
      * @constructor
      */
-    function B(options) {
-        // Case call B() without new
-        if (!(this instanceof  B)) {
-            var b = new B(options);
-
-            return b.stringify.bind(b);
+    function BemFormatter(options) {
+        // Case call BemFormatter() without new
+        if (!(this instanceof  BemFormatter)) {
+            return createBemFormatter(options);
         }
 
         options = options || {};
@@ -41,7 +39,7 @@ function (root, factory) {
         this.classSeparator = options.classSeparator || ' ';
     }
 
-    B.prototype = {
+    BemFormatter.prototype = {
         /**
          *
          * @param {string} base
@@ -104,11 +102,57 @@ function (root, factory) {
         }
     };
 
-    var b = new B();
+    /**
+     * Return partially applied b_
+     *
+     * @param {string} block
+     * @param {string} [element]
+     * @param {object} [modifiers]
+     * @returns {Function} partially applied b_
+     *
+     * @example
+     *
+     * ```jsx
+     * var B = require('b_');
+     * var b = B.with('b-button');
+     * var e = B.with('b-button', 'elem');
+     *
+     * function render() {
+         *   return (
+         *     <div className={b()}>
+         *       <span className={b('icon', {type: 'add'})}></span>
+         *       <span className={b('text')}></span>
+         *     </div>
+         *     <div className={b({size: 'small'})}>
+         *       <span className={b('icon', {type: 'add'})}></span>
+         *       <span className={b('text')}></span>
+         *     </div>
+         *   );
+         * }
+     * ```
+     */
+    function withMixin(block, element, modifiers) {
+        return this.bind.apply(this, [null].concat(Array.prototype.slice.call(arguments)));
+    }
+
+    /**
+     * @param {object} [options]
+     * @returns {function}
+     *
+     * @private
+     */
+    function createBemFormatter(options) {
+        var bemFormatter = new BemFormatter(options);
+
+        var b = bemFormatter.stringify.bind(bemFormatter);
+        b.with = withMixin;
+
+        return b;
+    }
 
     /**
      *
-     * @type {function(this:B)}
+     * @type {function(this:BemFormatter)}
      *
      * @example
      *
@@ -119,11 +163,11 @@ function (root, factory) {
      * b('block', 'elem'); // 'block__elem'
      * b('block', 'elem', {mod1: true, mod2: false, mod3: 'mod3'}); // 'block__elem block__elem_mod1 block__elem_mod3_mod3'
      */
-    b = b.stringify.bind(b);
+    var b = createBemFormatter();
 
     /**
      *
-     * @type {B}
+     * @type {BemFormatter}
      *
      * @example
      *
@@ -140,7 +184,7 @@ function (root, factory) {
      * b.stringify('block', 'elem'); // 'block-elem '
      * b.stringify('block', 'elem', {mod1: true, mod2: false, mod3: 'mod3'}); // 'block-elem block-elem--mod1 block-elem--mod3-mod3'
      */
-    b.B = B;
+    b.B = BemFormatter;
 
     return b;
 });

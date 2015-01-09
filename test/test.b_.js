@@ -15,6 +15,14 @@ describe('b_', function () {
         ['block', 'element', {a: 1, b: 2}]
     ];
 
+    var overrideableOptions = {
+        tailSpace: '{tailSpace}',
+        elementSeparator: '{elementSeparator}',
+        modSeparator: '{modSeparator}',
+        modValueSeparator: '{modValueSeparator}',
+        classSeparator: '{classSeparator}'
+    };
+
     it('is alias to new B().stringify', function () {
 
         cases.forEach(function (item) {
@@ -26,19 +34,16 @@ describe('b_', function () {
     describe('new b_.B()', function () {
 
         it('overrides default format', function () {
-            var options = {
-                tailSpace: '1',
-                elementSeparator: '2',
-                modSeparator: '3',
-                modValueSeparator: '4',
-                classSeparator: '5'
-            };
+            var b = new B(overrideableOptions);
 
-            var b = new B(options);
-
-            Object.keys(options).forEach(function (key) {
-                expect(b).to.have.property(key, options[key]);
+            Object.keys(overrideableOptions).forEach(function (key) {
+                expect(b).to.have.property(key, overrideableOptions[key]);
             });
+
+            expect(b.stringify('[block]', '[element]', {'[modifier]': '[value]'})).to.eql(
+                '[block]{elementSeparator}[element]{classSeparator}' +
+                '[block]{elementSeparator}[element]{modSeparator}[modifier]{modValueSeparator}[value]{tailSpace}'
+            );
         });
 
         describe('.stringify()', function () {
@@ -104,6 +109,15 @@ describe('b_', function () {
     });
 
     describe('b_.B()', function () {
+        it('overrides default format', function () {
+            var b = B(overrideableOptions);
+
+            expect(b('[block]', '[element]', {'[modifier]': '[value]'})).to.eql(
+                '[block]{elementSeparator}[element]{classSeparator}' +
+                '[block]{elementSeparator}[element]{modSeparator}[modifier]{modValueSeparator}[value]{tailSpace}'
+            );
+        });
+
         it('is alias to new B().stringify', function () {
 
             cases.forEach(function (item) {
@@ -111,6 +125,21 @@ describe('b_', function () {
                     b = B();
 
                 expect(b.apply(null, item)).to.eql(bInstance.stringify.apply(bInstance, item));
+            });
+        });
+    });
+
+    describe('b_.with()', function () {
+        it('returns partially applied b_', function () {
+
+            cases.forEach(function (item) {
+                var b = B();
+
+                item.forEach(function (arg, index) {
+                    var curriedB = b.with.apply(b, item.slice(0, index));
+
+                    expect(b.apply(null, item)).to.eql(curriedB.apply(null, item.slice(index)));
+                });
             });
         });
     });
