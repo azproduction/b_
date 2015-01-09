@@ -43,18 +43,19 @@ b('block', 'elem', {mod1: true, mod2: false, mod3: 'mod3'}) ===
 **React example**
 
 ```jsx
-var B = require('b_').B;
-var b = B({tailSpace: ' '});
+var b = require('b_').with('b-button');
+// which is `require('b_').bind(null, 'b-button');` but much convenient
 
 function render() {
-    var classes = b('b-button', {
-        size: this.props.size,
-        disabled: this.state.disabled
-    });
-    
-    // Mixins
-    classes += b('b-icon', {type: this.props.iconType});
-    
-    return <div className={classes}>Great, I'll be there.</div>;
+    return (
+        <div className={b()}>
+            <span className={b('icon', {type: 'add'})}></span>
+            <span className={b('text')}></span>
+        </div>
+        <div className={b({size: 'small'})}>
+            <span className={b('icon', {type: 'add'})}></span>
+            <span className={b('text')}></span>
+        </div>
+    );
 }
 ```
