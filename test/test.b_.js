@@ -67,8 +67,20 @@ describe('b_', function () {
                 expect(b.stringify('block', {a: true, b: false, c: 1})).to.eql('block block_a block_c_1');
             });
 
+            it('treat undefined modifier values as false', function () {
+                expect(b.stringify('block', {b: void 0})).to.eql('block');
+            });
+
             it('ignores prototype properties of modifiers', function () {
                 expect(b.stringify('block', Object.create({a: true, b: false, c: 1}))).to.eql('block');
+            });
+
+            it('casts non boolean and defined modifier values to string', function () {
+                var modifierValues = ['xl', '', 1, 0, -0, null, NaN, Infinity, -Infinity, [], {}, function () {}];
+
+                modifierValues.forEach(function (modValue) {
+                    expect(b.stringify('block', {mod: modValue})).to.eql('block block_mod_' + String(modValue));
+                });
             });
 
             it('handles block and element', function () {

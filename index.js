@@ -57,8 +57,8 @@ function (root, factory) {
 
                 var modifierValue = modifiers[modifierKey];
 
-                // Ignore false values
-                if (modifierValue === false) {
+                // Ignore false or undefined values
+                if (modifierValue === false || typeof modifierValue === 'undefined') {
                     continue;
                 }
 
