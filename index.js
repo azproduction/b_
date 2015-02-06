@@ -10,7 +10,7 @@ function (root, factory) {
         define([], factory);
     } else {
         // Browser globals
-        root.functionCallApply = factory();
+        root.b_ = factory();
     }
 })
 (this, function () {
