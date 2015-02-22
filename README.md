@@ -36,8 +36,18 @@ var b = B({
     classSeparator: ' '
 });
 
-b('block', 'elem', {mod1: true, mod2: false, mod3: 'mod3'}) === 
+b('block', 'elem', {mod1: true, mod2: false, mod3: 'mod3'}) ===
 'block-elem block-elem--mod1 block-elem--mod3-mod3 ';
+```
+
+**[BEViS](https://github.com/bevis-ui/docs) syntax**
+
+```js
+var B = require('b_').B;
+var b = B({isFullModifier: false});
+
+b('button_call-for-action', {disabled: true, focused: 'yes'})) ===
+'button_call-for-action _disabled _focused_yes';
 ```
 
 **React example**
