@@ -20,7 +20,8 @@ describe('b_', function () {
         elementSeparator: '{elementSeparator}',
         modSeparator: '{modSeparator}',
         modValueSeparator: '{modValueSeparator}',
-        classSeparator: '{classSeparator}'
+        classSeparator: '{classSeparator}',
+        isFullModifier: true
     };
 
     it('is alias to new B().stringify', function () {
@@ -114,6 +115,11 @@ describe('b_', function () {
             it('can have different classSeparator', function () {
                 b = new B({classSeparator: '\t'});
                 expect(b.stringify('block', {a: 1, b: 2})).to.eql('block\tblock_a_1\tblock_b_2');
+            });
+
+            it('can use short modifiers', function () {
+                b = new B({isFullModifier: false});
+                expect(b.stringify('block_view', {state1: 1, state2: 2})).to.eql('block_view _state1_1 _state2_2');
             });
 
         });

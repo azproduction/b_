@@ -22,6 +22,7 @@ function (root, factory) {
      * @param {string} [options.modSeparator='_']
      * @param {string} [options.modValueSeparator='_']
      * @param {string} [options.classSeparator=' ']
+     * @param {string} [options.isFullModifier=true]
      *
      * @constructor
      */
@@ -37,9 +38,38 @@ function (root, factory) {
         this.modSeparator = options.modSeparator || '_';
         this.modValueSeparator = options.modValueSeparator || '_';
         this.classSeparator = options.classSeparator || ' ';
+        this.isFullModifier = typeof options.isFullModifier === 'undefined' ? true : options.isFullModifier;
     }
 
     BemFormatter.prototype = {
+        /**
+         *
+         * @param {string} base
+         * @param {string} modifierKey
+         * @param {*} modifierValue
+         * @returns {string}
+         * @private
+         */
+        _stringifyModifier: function (base, modifierKey, modifierValue) {
+            var result = '';
+
+            // Ignore false or undefined values
+            if (modifierValue === false || typeof modifierValue === 'undefined') {
+                return result;
+            }
+
+            // Makes block__elem_{modifierKey}
+            result += this.classSeparator + base + this.modSeparator + modifierKey;
+
+            // If modifier value is just true skip `modifierValue`
+            if (modifierValue !== true) {
+                // Makes block__elem_{modifierKey}_{modifierValue}
+                result += this.modValueSeparator + String(modifierValue);
+            }
+
+            return result;
+        },
+
         /**
          *
          * @param {string} base
@@ -50,26 +80,16 @@ function (root, factory) {
         _stringifyModifiers: function (base, modifiers) {
             var result = '';
 
+            if (!this.isFullModifier) {
+                base = '';
+            }
+
             for (var modifierKey in modifiers) {
                 if (!modifiers.hasOwnProperty(modifierKey)) {
                     continue;
                 }
 
-                var modifierValue = modifiers[modifierKey];
-
-                // Ignore false or undefined values
-                if (modifierValue === false || typeof modifierValue === 'undefined') {
-                    continue;
-                }
-
-                // Makes block__elem_{modifierKey}
-                result += this.classSeparator + base + this.modSeparator + modifierKey;
-
-                // If modifier value is just true skip `modifierValue`
-                if (modifierValue !== true) {
-                    // Makes block__elem_{modifierKey}_{modifierValue}
-                    result += this.modValueSeparator + String(modifierValue);
-                }
+                result += this._stringifyModifier(base, modifierKey, modifiers[modifierKey]);
             }
 
             return result;
