@@ -54,6 +54,8 @@ b('button_call-for-action', {disabled: true, focused: 'yes'})) ===
 
 ```jsx
 var b = require('b_').with('b-button');
+// or
+var b = require('b_').lock('b-button');
 // which is `require('b_').bind(null, 'b-button');` but much convenient
 
 function render() {

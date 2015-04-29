@@ -165,7 +165,7 @@ function (root, factory) {
         var bemFormatter = new BemFormatter(options);
 
         var b = bemFormatter.stringify.bind(bemFormatter);
-        b.with = withMixin;
+        b['with'] = b.lock = withMixin;
 
         return b;
     }
