@@ -7,7 +7,7 @@ BEM class name formatter
 
 ## Example
 
-**Simple**
+### Simple
 
 ```js
 var b = require('b_');
@@ -23,7 +23,7 @@ b('button', {hidden: false}) === 'button';
 b('button', {hidden: true}) === 'button button_hidden';
 ```
 
-**Alternative BEM syntax**
+### Alternative BEM syntax
 
 ```js
 var B = require('b_').B;
@@ -39,17 +39,27 @@ b('block', 'elem', {mod1: true, mod2: false, mod3: 'mod3'}) ===
 'block-elem block-elem--mod1 block-elem--mod3-mod3 ';
 ```
 
-**[BEViS](https://github.com/bevis-ui/docs) syntax**
+### [BEViS](https://github.com/bevis-ui/docs) syntax
 
 ```js
 var B = require('b_').B;
 var b = B({isFullModifier: false});
 
-b('button_call-for-action', {disabled: true, focused: 'yes'})) ===
+b('button_call-for-action', {disabled: true, focused: 'yes'}) ===
 'button_call-for-action _disabled _focused_yes';
 ```
 
-**React example**
+### Full bool values in modifiers
+
+```js
+var B = require('b_').B;
+var b = B({isFullBoolValue: true});
+
+b('button', {disabled: true, focused: false}) ===
+'button button_disabled_true button_focused_false';
+```
+
+### React example
 
 ```jsx
 var b = require('b_').with('b-button');

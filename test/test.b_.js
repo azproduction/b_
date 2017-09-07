@@ -21,7 +21,8 @@ describe('b_', function () {
         modSeparator: '{modSeparator}',
         modValueSeparator: '{modValueSeparator}',
         classSeparator: '{classSeparator}',
-        isFullModifier: true
+        isFullModifier: true,
+        isFullBoolValue: false
     };
 
     it('is alias to new B().stringify', function () {
@@ -120,6 +121,11 @@ describe('b_', function () {
             it('can use short modifiers', function () {
                 b = new B({isFullModifier: false});
                 expect(b.stringify('block_view', {state1: 1, state2: 2})).to.eql('block_view _state1_1 _state2_2');
+            });
+
+            it('can use full bool value modifiers', function () {
+                b = new B({isFullBoolValue: true});
+                expect(b.stringify('block_view', {state1: true, state2: false})).to.eql('block_view block_view_state1_true block_view_state2_false');
             });
 
         });
