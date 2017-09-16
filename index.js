@@ -23,6 +23,7 @@ function (root, factory) {
      * @param {string} [options.modValueSeparator='_']
      * @param {string} [options.classSeparator=' ']
      * @param {string} [options.isFullModifier=true]
+     * @param {string} [options.isFullBoolValue=false]
      *
      * @constructor
      */
@@ -39,6 +40,7 @@ function (root, factory) {
         this.modValueSeparator = options.modValueSeparator || '_';
         this.classSeparator = options.classSeparator || ' ';
         this.isFullModifier = typeof options.isFullModifier === 'undefined' ? true : options.isFullModifier;
+        this.isFullBoolValue = typeof options.isFullBoolValue === 'undefined' ? false : options.isFullBoolValue;
     }
 
     BemFormatter.prototype = {
@@ -53,16 +55,21 @@ function (root, factory) {
         _stringifyModifier: function (base, modifierKey, modifierValue) {
             var result = '';
 
-            // Ignore false or undefined values
-            if (modifierValue === false || typeof modifierValue === 'undefined') {
+            // Ignore undefined values
+            if (typeof modifierValue === 'undefined') {
+                return result;
+            }
+
+            // If not using full bools ignore false values
+            if (!this.isFullBoolValue && modifierValue === false) {
                 return result;
             }
 
             // Makes block__elem_{modifierKey}
             result += this.classSeparator + base + this.modSeparator + modifierKey;
 
-            // If modifier value is just true skip `modifierValue`
-            if (modifierValue !== true) {
+            // If not using full bools skip true `modifierValue`
+            if (this.isFullBoolValue || modifierValue !== true) {
                 // Makes block__elem_{modifierKey}_{modifierValue}
                 result += this.modValueSeparator + String(modifierValue);
             }
