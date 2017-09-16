@@ -1,6 +1,6 @@
 {
   "name": "b_",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "author": "Mikhail Davydov <i@azproduction.ru>",
   "description": "BEM class name generator",
   "license": "MIT",
